@@ -7,10 +7,10 @@ resource "aws_eip" "nat-eip" {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "vpc-${env}"
+  name = "vpc-${var.env}"
   cidr = "10.0.0.0/16"
 
-  azs                 = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"]
+  azs                 = ["${var.aws-region}a", "${var.aws-region}b", "${var.aws-region}c"]
   private_subnets     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   public_subnets      = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
   elasticache_subnets = ["10.0.31.0/24", "10.0.32.0/24", "10.0.33.0/24"]
@@ -56,30 +56,30 @@ resource "aws_security_group" "docdb-service" {
 
 output "vpc_id" {
   description = "The ID of the VPC"
-  value       = module.main-vpc.vpc_id
+  value       = module.vpc.vpc_id
 }
 
 output "private_subnets" {
   description = "List of IDs of private subnets"
-  value       = module.main-vpc.private_subnets
+  value       = module.vpc.private_subnets
 }
 
 output "public_subnets" {
   description = "List of IDs of public subnets"
-  value       = module.main-vpc.public_subnets
+  value       = module.vpc.public_subnets
 }
 
 output "availability_zones" {
   description = "List of IDs of availability zones"
-  value       = module.main-vpc.azs
+  value       = module.vpc.azs
 }
 
 output "elasticache_subnets" {
   description = "List of IDs of elasticache subnets"
-  value       = module.main-vpc.elasticache_subnets
+  value       = module.vpc.elasticache_subnets
 }
 
 output "database_subnets" {
   description = "List of IDs of database subnets"
-  value       = module.main-vpc.database_subnets
+  value       = module.vpc.database_subnets
 }

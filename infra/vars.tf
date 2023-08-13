@@ -1,10 +1,10 @@
-variable "aws_access_key" {
+variable "aws-access-key" {
 }
 
-variable "aws_secret_key" {
+variable "aws-secret-key" {
 }
 
-variable "aws_region" {
+variable "aws-region" {
     default = "us-east-1"
 }
 
@@ -12,9 +12,6 @@ variable "env" {
     default = "ecs-security-workshop"
 }
 
-variable "docdb_instance_class" {
+variable "docdb-instance-class" {
     default = "db.t3.medium"
-}
-
-variable "docdb_password" {
 }

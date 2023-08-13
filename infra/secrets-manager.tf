@@ -1,4 +1,4 @@
 resource "aws_secretsmanager_secret" "docdb-service" {
-  name = "DocumentDBMasterPassword"
+  name = "DocumentDBMasterPasswordLatest"
   recovery_window_in_days = "0"
 }
