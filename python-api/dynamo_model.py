@@ -11,7 +11,7 @@ def get_region():
         # Use for EC2
         region = loads(get('http://169.254.169.254/latest/dynamic/instance-identity/document').text).get('region')
     except:
-        region = 'us-west-2'
+        region = 'us-east-1'
     return region
 
 class UserModel(Model):
