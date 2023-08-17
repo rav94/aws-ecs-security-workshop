@@ -19,7 +19,7 @@ class UserModel(Model):
     User table
     """
     class Meta:
-        table_name = getenv('DYNAMO_TABLE')
+        table_name = "UsersTable" #TODO: Get to env from Secrets Manager
         region = get_region()
         
     email = UnicodeAttribute(null=True)
