@@ -34,6 +34,69 @@ module "vpc" {
   }
 }
 
+resource "aws_security_group" "allow-ecs-cluster" {
+  vpc_id      = module.vpc.vpc_id
+  name        = "${var.env}-allow-ecs-cluster"
+  description = "security group for ecs cluster"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port       = 1024
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = [aws_security_group.allow-ecs-cluster-alb.id]
+  }
+
+  tags = {
+    Name = "allow-ecs-cluster"
+    Terraform   = "true"
+    Environment = var.env
+  }
+
+  depends_on = [
+    aws_security_group.allow-ecs-webapp-cluster-alb,
+  ]
+}
+
+resource "aws_security_group" "allow-ecs-cluster-alb" {
+  vpc_id      = module.vpc.vpc_id
+  name        = "${var.ENV}-allow-ecs-cluster-alb"
+  description = "security group for ecs cluster alb"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow-ecs-cluster-alb"
+    Terraform   = "true"
+    Environment = var.env
+  }
+}
+
 output "vpc_id" {
   description = "The ID of the VPC"
   value       = module.vpc.vpc_id

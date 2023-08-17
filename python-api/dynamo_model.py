@@ -19,7 +19,7 @@ class UserModel(Model):
     User table
     """
     class Meta:
-        table_name = "UsersTable" #TODO: Get to env from Secrets Manager
+        table_name = "UsersTable-ecs-security-workshop" #TODO: Get to env from Secrets Manager
         region = get_region()
         
     email = UnicodeAttribute(null=True)

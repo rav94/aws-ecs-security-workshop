@@ -16,6 +16,6 @@ variable "env" {
     default = "ecs-security-workshop"
 }
 
-variable "docdb-instance-class" {
-    default = "db.t3.medium"
+variable "ecs-ec2-instance-type" {
+    default = "t3a.medium"
 }

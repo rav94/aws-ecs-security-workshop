@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "users-dynamodb-table" {
-  name           = "UsersTable"
+  name           = "UsersTable-${var.env}"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "first_name"
   range_key      = "last_name"
