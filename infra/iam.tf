@@ -155,6 +155,27 @@ EOF
 
 }
 
+resource "aws_iam_role_policy" "ecs-task-cloudwatch-policy" {
+  name   = "${var.env}-ecs-task-cloudwatch-polcy"
+  role = aws_iam_role.ecs-task-role.id
+  policy = <<-EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 # ECS Task Execution Role
 resource "aws_iam_role" "ecs-task-execution-role" {
   name = "${var.env}-ecs-task-execution-role"
