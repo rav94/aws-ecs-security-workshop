@@ -121,11 +121,11 @@ EOF
 
 }
 
-resource "aws_iam_role_polcy" "ecs-task-dynamodb-policy" {
+resource "aws_iam_role_policy" "ecs-task-dynamodb-policy" {
     name = "${var.env}-ecs-task-dynamodb-polcy"
     role = aws_iam_role.ecs-task-role.id
 
-      policy = <<-EOF
+    policy = <<-EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -133,7 +133,7 @@ resource "aws_iam_role_polcy" "ecs-task-dynamodb-policy" {
       "Effect": "Allow",
       "Action": [
         "dynamodb:BatchGetItem",
-        "dynamodb:GetRecords"
+        "dynamodb:GetRecords",
         "dynamodb:GetShardIterator",
         "dynamodb:Query",
         "dynamodb:GetItem",
@@ -146,7 +146,7 @@ resource "aws_iam_role_polcy" "ecs-task-dynamodb-policy" {
         "dynamodb:DescribeTable"
       ],
       "Resource": [
-        "arn:aws:dynamodb:${var.aws-region}:${var.aws-account-d}:table/UsersTable-${var.env}"
+        "arn:aws:dynamodb:${var.aws-region}:${var.aws-account-id}:table/UsersTable-${var.env}"
       ]
     }
   ]
@@ -156,7 +156,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "ecs-task-secret-manager-policy" {
-  name = "${var.env}-ECS-TASK-SECRET-MANAGER-POLICY"
+  name = "${var.env}-ecs-task-secret-manager-policy"
   role = aws_iam_role.ecs-task-role.id
 
   policy = <<-EOF
@@ -169,7 +169,7 @@ resource "aws_iam_role_policy" "ecs-task-secret-manager-policy" {
         "secretsmanager:GetSecretValue"
       ],
       "Resource": [
-        "arn:aws:secretsmanager:${var.aws-region}:${var.aws-account-d}:secret:*"
+        "arn:aws:secretsmanager:${var.aws-region}:${var.aws-account-id}:secret:*"
       ]
     }
   ]
@@ -208,7 +208,7 @@ resource "aws_iam_role_policy_attachment" "ecs-task-attach-1" {
 
 # EC2 System Manager Role
 resource "aws_iam_role" "ssm-ec2-role" {
-  name               = "${var.ENV}-SSM-EC2-ROLE"
+  name               = "${var.env}-ssm-ec2-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -228,7 +228,7 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "ssm-ec2-role" {
-  name = "${var.ENV}-SSM-EC2-ROLE"
+  name = "${var.env}-ssm-ec2-ROLE"
   role = aws_iam_role.ssm-ec2-role.name
 }
 

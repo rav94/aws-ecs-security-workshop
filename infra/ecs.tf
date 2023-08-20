@@ -44,7 +44,7 @@ resource "aws_launch_template" "ecs-ec2-cluster-launch-template" {
   instance_type           = var.ecs-ec2-instance-type
   image_id                = data.aws_ami.ecs.id
   key_name                = aws_key_pair.generated_key.key_name
-  user_data               = base64encode(data.template_file.ecs-ec2-cluster.rendered)
+  user_data               = base64encode(data.template_file.ecs-ec2-template.rendered)
   vpc_security_group_ids  = [aws_security_group.allow-ecs-cluster.id]
   update_default_version  = true
 
@@ -75,10 +75,9 @@ resource "aws_autoscaling_group" "ecs-ec2-autoscaling" {
   }
 
   tag {
-    Name                = "${var.env}-ecs-ec2-cluster-asg"
+    key                 = "Name"
+    value               = "${var.env}-ecs-ec2-asg"
     propagate_at_launch = true
-    Terraform           = "true"
-    Environment         = var.env
   }
 }
 

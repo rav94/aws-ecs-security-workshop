@@ -53,12 +53,12 @@ resource "aws_security_group" "allow-ecs-cluster" {
     security_groups = [aws_security_group.allow-ecs-cluster-alb.id]
   }
 
-  ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "ssh"
-    cidr_blocks     = ["0.0.0.0/0"] # Opening SSH only from local IP
-  }
+  # ingress {
+  #   from_port       = 22
+  #   to_port         = 22
+  #   protocol        = "ssh"
+  #   cidr_blocks     = ["10.0.0.0/16"] # Opening SSH only from local IP
+  # }
 
   tags = {
     Name = "allow-ecs-cluster"
@@ -67,13 +67,13 @@ resource "aws_security_group" "allow-ecs-cluster" {
   }
 
   depends_on = [
-    aws_security_group.allow-ecs-webapp-cluster-alb,
+    aws_security_group.allow-ecs-cluster-alb,
   ]
 }
 
 resource "aws_security_group" "allow-ecs-cluster-alb" {
   vpc_id      = module.vpc.vpc_id
-  name        = "${var.ENV}-allow-ecs-cluster-alb"
+  name        = "${var.env}-allow-ecs-cluster-alb"
   description = "security group for ecs cluster alb"
 
   egress {
