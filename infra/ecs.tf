@@ -148,7 +148,7 @@ resource "aws_ecs_service" "user-api-service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.ecs-user-api-tg.arn
-    container_name   = local.ecs-ec2-container-port
+    container_name   = local.ecs-ec2-container-name
     container_port   = parseint(local.ecs-ec2-container-port, 10)
   }
 }
