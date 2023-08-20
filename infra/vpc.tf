@@ -67,7 +67,37 @@ resource "aws_security_group" "allow-ecs-cluster" {
   }
 
   depends_on = [
-    aws_security_group.allow-ecs-cluster-alb,
+    aws_security_group.allow-ecs-cluster-alb
+  ]
+}
+
+resource "aws_security_group" "allow-ecs-cluster-task" {
+  vpc_id      = module.vpc.vpc_id
+  name        = "${var.env}-allow-ecs-cluster-task"
+  description = "security group for ecs cluster task"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  ingress {
+    from_port       = 1024
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = [aws_security_group.allow-ecs-cluster-alb.id]
+  }
+
+  tags = {
+    Name = "allow-ecs-cluster-task"
+    Terraform   = "true"
+    Environment = var.env
+  }
+
+  depends_on = [
+    aws_security_group.allow-ecs-cluster-alb
   ]
 }
 
