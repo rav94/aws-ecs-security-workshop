@@ -43,7 +43,7 @@ resource "aws_launch_template" "ecs-ec2-cluster-launch-template" {
   disable_api_termination = false
   instance_type           = var.ecs-ec2-instance-type
   image_id                = data.aws_ami.ecs.id
-  key_name                = var.key-name
+  key_name                = aws_key_pair.generated_key.key_name
   user_data               = base64encode(data.template_file.ecs-ec2-cluster.rendered)
   vpc_security_group_ids  = [aws_security_group.allow-ecs-cluster.id]
   update_default_version  = true

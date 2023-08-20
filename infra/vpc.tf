@@ -53,6 +53,13 @@ resource "aws_security_group" "allow-ecs-cluster" {
     security_groups = [aws_security_group.allow-ecs-cluster-alb.id]
   }
 
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "ssh"
+    cidr_blocks     = ["0.0.0.0/0"] # Opening SSH only from local IP
+  }
+
   tags = {
     Name = "allow-ecs-cluster"
     Terraform   = "true"
