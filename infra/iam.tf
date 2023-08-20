@@ -155,22 +155,20 @@ EOF
 
 }
 
-resource "aws_iam_role_policy" "ecs-task-secret-manager-policy" {
-  name = "${var.env}-ecs-task-secret-manager-policy"
-  role = aws_iam_role.ecs-task-role.id
-
-  policy = <<-EOF
+# ECS Task Execution Role
+resource "aws_iam_role" "ecs-task-execution-role" {
+  name = "${var.env}-ecs-task-execution-role"
+  assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Sid": "",
       "Effect": "Allow",
-      "Action": [
-        "secretsmanager:GetSecretValue"
-      ],
-      "Resource": [
-        "arn:aws:secretsmanager:${var.aws-region}:${var.aws-account-id}:secret:*"
-      ]
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }
@@ -178,31 +176,8 @@ EOF
 
 }
 
-resource "aws_iam_role_policy" "ecs-task-cloudwatch-create-policy" {
-  name = "${var.env}-ecs-task-cloudwatch-create-policy"
-  role = aws_iam_role.ecs-task-role.id
-
-  policy = <<-EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup"
-      ],
-      "Resource": [
-        "*"
-      ]
-    }
-  ]
-}
-EOF
-
-}
-
-resource "aws_iam_role_policy_attachment" "ecs-task-attach-1" {
-  role       = aws_iam_role.ecs-task-role.name
+resource "aws_iam_role_policy_attachment" "ecs-task-execution-attach-1" {
+  role       = aws_iam_role.ecs-task-execution-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
