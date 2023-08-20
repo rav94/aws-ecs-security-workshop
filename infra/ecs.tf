@@ -101,7 +101,7 @@ resource "aws_autoscaling_policy" "ecs-ec2-autoscaling-target-tracking-policy" {
 
 # ECS EC2 Task
 data "template_file" "user-api-task-definition-template" {
-  template = file("${path.module}/templates/userapi.json.tpl")
+  template = file("${path.module}/templates/userapi-ec2.json.tpl")
   vars = {
     container-name = local.ecs-ec2-container-name
     repository-url = replace(aws_ecr_repository.user-api.repository_url, "https://", "")

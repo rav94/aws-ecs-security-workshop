@@ -1,5 +1,5 @@
 resource "aws_lb" "ecs-user-api-alb" {
-  name                       = "${var.env}-ecs-user-api-alb"
+  name                       = "ecs-ec2-user-api-alb"
   subnets                    = flatten([module.vpc.public_subnets])
   internal                   = false
   load_balancer_type         = "application"
@@ -29,7 +29,7 @@ resource "aws_lb_listener" "ecs-user-api-listener" {
 }
 
 resource "aws_lb_target_group" "ecs-user-api-tg" {
-  name        = "${var.env}-ecs-user-api-tg"
+  name        = "ecs-ec2-user-api-tg"
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
