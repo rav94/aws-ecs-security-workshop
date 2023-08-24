@@ -1,6 +1,6 @@
 locals {
   ecs-ec2-cluster-name       = "user-api-${var.env}-ecs-ec2"
-  ecs-fargate-cluster-name   = "user-api-${var.env}-fargate-ec2"
+  ecs-fargate-cluster-name   = "user-api-${var.env}-ecs-fargate"
   ecs-ec2-container-port     = "8080"
   ecs-ec2-container-name     = "user-api-ec2"
   ecs-fargate-container-port = "8080"
