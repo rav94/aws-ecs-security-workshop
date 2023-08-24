@@ -132,6 +132,7 @@ resource "aws_ecs_service" "user-api-service-ec2" {
   deployment_maximum_percent         = 200
   desired_count                      = 1
   health_check_grace_period_seconds  = 100
+  iam_role                           = aws_iam_role.ecs-role.arn #ARN of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is required if you are using a load balancer with your service, but only if your task definition does not use the awsvpc network mode. If using awsvpc network mode, do not specify this role. If your account has already created the Amazon ECS service-linked role, that role is used by default for your service unless you specify a role here.
 
   depends_on = [
     aws_lb.ecs-ec2-user-api-alb
