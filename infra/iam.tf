@@ -24,85 +24,64 @@ resource "aws_iam_instance_profile" "ecs-ec2-role" {
   role = aws_iam_role.ecs-ec2-role.name
 }
 
-resource "aws_iam_role_policy" "ecs-ec2-role-policy" {
-  name   = "${var.env}-ecs-ec2-role-policy"
-  role   = aws_iam_role.ecs-ec2-role.id
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-              "ecs:CreateCluster",
-              "ecs:DeregisterContainerInstance",
-              "ecs:DiscoverPollEndpoint",
-              "ecs:Poll",
-              "ecs:RegisterContainerInstance",
-              "ecs:StartTelemetrySession",
-              "ecs:Submit*",
-              "ecs:StartTask",
-              "ecr:GetAuthorizationToken",
-              "ecr:BatchCheckLayerAvailability",
-              "ecr:GetDownloadUrlForLayer",
-              "ecr:BatchGetImage",
-              "logs:CreateLogStream",
-              "logs:PutLogEvents"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-                "logs:DescribeLogStreams"
-            ],
-            "Resource": [
-                "arn:aws:logs:*:*:*"
-            ]
-        }
-    ]
-}
-EOF
-
-}
+#resource "aws_iam_role_policy" "ecs-ec2-role-policy" {
+#  name   = "${var.env}-ecs-ec2-role-policy"
+#  role   = aws_iam_role.ecs-ec2-role.id
+#  policy = <<EOF
+#{
+#    "Version": "2012-10-17",
+#    "Statement": [
+#        {
+#            "Effect": "Allow",
+#            "Action": [
+#              "ecs:CreateCluster",
+#              "ecs:DeregisterContainerInstance",
+#              "ecs:DiscoverPollEndpoint",
+#              "ecs:Poll",
+#              "ecs:RegisterContainerInstance",
+#              "ecs:StartTelemetrySession",
+#              "ecs:Submit*",
+#              "ecs:StartTask",
+#              "ecr:GetAuthorizationToken",
+#              "ecr:BatchCheckLayerAvailability",
+#              "ecr:GetDownloadUrlForLayer",
+#              "ecr:BatchGetImage",
+#              "logs:CreateLogStream",
+#              "logs:PutLogEvents"
+#            ],
+#            "Resource": "*"
+#        },
+#        {
+#            "Effect": "Allow",
+#            "Action": [
+#                "logs:CreateLogGroup",
+#                "logs:CreateLogStream",
+#                "logs:PutLogEvents",
+#                "logs:DescribeLogStreams"
+#            ],
+#            "Resource": [
+#                "arn:aws:logs:*:*:*"
+#            ]
+#        }
+#    ]
+#}
+#EOF
+#
+#}
 
 resource "aws_iam_role_policy_attachment" "ecs-ec2-attach-1" {
   role       = aws_iam_role.ecs-ec2-role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
-# ECS Service role
-resource "aws_iam_role" "ecs-service-role" {
-  name = "${var.env}-ecs-service-role"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ecs.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-
-}
-
-resource "aws_iam_role_policy_attachment" "ecs-service-attach-1" {
-  role       = aws_iam_role.ecs-service-role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+resource "aws_iam_role_policy_attachment" "ecs-ec2-attach-2" {
+  role       = aws_iam_role.ecs-ec2-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSServiceRoleForECS"
 }
 
 # ECS Task Role
 resource "aws_iam_role" "ecs-task-role" {
-  name = "${var.env}-ecs-task-role"
+  name               = "${var.env}-ecs-task-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -122,10 +101,10 @@ EOF
 }
 
 resource "aws_iam_role_policy" "ecs-task-dynamodb-policy" {
-    name = "${var.env}-ecs-task-dynamodb-polcy"
-    role = aws_iam_role.ecs-task-role.id
+  name = "${var.env}-ecs-task-dynamodb-polcy"
+  role = aws_iam_role.ecs-task-role.id
 
-    policy = <<-EOF
+  policy = <<-EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -155,9 +134,9 @@ EOF
 
 }
 
-# ECS Task Execution Role
+# ECS Task Execution Role And Attachments
 resource "aws_iam_role" "ecs-task-execution-role" {
-  name = "${var.env}-ecs-task-execution-role"
+  name               = "${var.env}-ecs-task-execution-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -183,7 +162,7 @@ resource "aws_iam_role_policy_attachment" "ecs-task-execution-attach-1" {
 
 resource "aws_iam_role_policy" "ecs-task-cloudwatch-policy" {
   name   = "${var.env}-ecs-task-cloudwatch-polcy"
-  role = aws_iam_role.ecs-task-execution-role.id
+  role   = aws_iam_role.ecs-task-execution-role.id
   policy = <<-EOF
 {
   "Version": "2012-10-17",
@@ -195,6 +174,27 @@ resource "aws_iam_role_policy" "ecs-task-cloudwatch-policy" {
       ],
       "Resource": [
         "*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "ecs-task-secrets-manager-policy" {
+  name   = "${var.env}-ecs-tasks-secrets-manager-policy"
+  role   = aws_iam_role.ecs-task-execution-role.id
+  policy = <<-EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:${var.aws-region}:${var.aws-account-id}:secret:DynamoDB*"
       ]
     }
   ]

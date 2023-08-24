@@ -2,12 +2,10 @@
   {
     "name": "${container-name}",
     "image": "${repository-url}:latest",
-    "memory": 512,
-    "memoryReservation": 256,
     "essential": true,
     "portMappings": [
       {
-        "hostPort": 0,
+        "hostPort": ${container-port},
         "containerPort": ${container-port},
         "protocol": "tcp"
       }

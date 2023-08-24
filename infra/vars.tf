@@ -5,17 +5,17 @@ variable "aws-secret-key" {
 }
 
 variable "aws-region" {
-    default = "us-east-1"
+  default = "us-east-1"
 }
 
 variable "aws-account-id" {
-    default = "830791455757"
+  default = "830791455757"
 }
 
 variable "env" {
-    default = "ecs-security-workshop"
+  default = "ecs-security-workshop"
 }
 
 variable "ecs-ec2-instance-type" {
-    default = "t3a.medium"
+  default = "t3a.medium"
 }
