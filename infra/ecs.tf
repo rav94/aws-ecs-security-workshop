@@ -198,11 +198,12 @@ resource "aws_ecs_cluster" "ecs-fargate-cluster" {
 data "template_file" "user-api-task-definition-fargate-template" {
   template = file("${path.module}/templates/userapi-fargate.json.tpl")
   vars     = {
-    container-name = local.ecs-fargate-container-name
-    repository-url = replace(aws_ecr_repository.user-api.repository_url, "https://", "")
-    container-port = local.ecs-fargate-container-port
-    log-group-path = "/ecs/fargate/user-api"
-    region         = var.aws-region
+    container-name          = local.ecs-fargate-container-name
+    repository-url          = replace(aws_ecr_repository.user-api.repository_url, "https://", "")
+    container-port          = local.ecs-fargate-container-port
+    log-group-path          = "/ecs/fargate/user-api"
+    region                  = var.aws-region
+    dynamodb-table-name-arn = aws_secretsmanager_secret.dynamodb-table-name.arn
   }
 }
 
