@@ -1,8 +1,3 @@
-locals {
-  ecs-ec2-container-port     = "8080"
-  ecs-fargate-container-port = "8080"
-}
-
 resource "aws_eip" "nat-eip" {
   count = 1
 
