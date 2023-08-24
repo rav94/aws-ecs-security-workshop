@@ -230,7 +230,7 @@ resource "aws_ecs_service" "user-api-service-fargate" {
   scheduling_strategy                = "REPLICA"
 
   network_configuration {
-    security_groups  = aws_security_group.allow-ecs-fargate-task
+    security_groups  = aws_security_group.allow-ecs-fargate-task.id
     subnets          = flatten([module.vpc.private_subnets])
     assign_public_ip = false
   }
