@@ -10,6 +10,13 @@
         "protocol": "tcp"
       }
     ],
+    "linuxParameters": {
+        "capabilities": {
+            "add": [
+                "SYS_PTRACE"
+            ]
+        }
+    }
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

@@ -5,6 +5,23 @@
     "memory": 512,
     "memoryReservation": 256,
     "essential": true,
+    "linuxParameters": {
+        "capabilities": {
+            "drop": ["ALL"],
+            "add": [
+                "CHOWN",
+                "DAC_OVERRIDE",
+                "FOWNER",
+                "FSETID",
+                "KILL",
+                "NET_BIND_SERVICE",
+                "NET_RAW",
+                "SETGID",
+                "SETUID",
+                "SYS_CHROOT"
+            ]
+        }
+    },
     "portMappings": [
       {
         "hostPort": 0,
