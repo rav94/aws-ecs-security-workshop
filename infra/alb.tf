@@ -109,13 +109,3 @@ resource "aws_lb_target_group" "ecs-fargate-user-api-tg" {
   #    # Cookie Durations Default - 1 Day
   #  }
 }
-
-output "ecs_ec2_alb" {
-  description = "ECS EC2 App ALB"
-  value       = aws_lb.ecs-ec2-user-api-alb.dns_name
-}
-
-output "ecs_fargate_alb" {
-  description = "ECS Fargate App ALB"
-  value       = aws_lb.ecs-fargate-user-api-alb.dns_name
-}
