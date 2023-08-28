@@ -74,6 +74,12 @@ resource "aws_iam_role_policy_attachment" "ecs-ec2-attach-1" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_role_policy_attachment" "ecs-ec2-attach-2" {
+  role       = aws_iam_role.ecs-ec2-role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+# ECS Service Role for providing Load Balancer Capabilities for ECS on EC2 - ECS services
 resource "aws_iam_role" "ecs-role" {
   name = "${var.env}-ecs-role"
   assume_role_policy = <<EOF
@@ -220,40 +226,4 @@ resource "aws_iam_role_policy" "ecs-task-secrets-manager-policy" {
   ]
 }
 EOF
-}
-
-# EC2 System Manager Role
-resource "aws_iam_role" "ssm-ec2-role" {
-  name               = "${var.env}-ssm-ec2-role"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-
-}
-
-resource "aws_iam_instance_profile" "ssm-ec2-role" {
-  name = "${var.env}-ssm-ec2-ROLE"
-  role = aws_iam_role.ssm-ec2-role.name
-}
-
-resource "aws_iam_role_policy_attachment" "ssm-ec2-attach-1" {
-  role       = aws_iam_role.ssm-ec2-role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-resource "aws_iam_role_policy_attachment" "ssm-ec2-attach-2" {
-  role       = aws_iam_role.ssm-ec2-role.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }

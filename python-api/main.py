@@ -9,26 +9,30 @@ app = FastAPI(
     version="1.0.0",
 )
 
+
 def get_user_details(first_name=None, last_name=None, get_all=False):
     return_data = list()
     if get_all:
         result = UserModel.scan()
     else:
         result = UserModel.query(first_name, UserModel.last_name == last_name)
-        
+
     for x in result:
         return_data.append(x)
-        
+
     return return_data
-        
+
+
 @app.get("/health")
 def health():
     return JSONResponse(status_code=status.HTTP_200_OK, content={"Status": "Healthy"})
 
+
 @app.get("/")
 def root():
     return RedirectResponse(url='/docs')
-    
+
+
 @app.get("/user/")
 def return_user_data(first: str, last: str):
     """
@@ -45,6 +49,7 @@ def return_user_data(first: str, last: str):
     except:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"Response": "User not found"})
 
+
 @app.get("/all_users")
 def get_all_users():
     all_users = get_user_details(get_all=True)
@@ -58,6 +63,7 @@ def get_all_users():
         })
     return return_data
 
+
 @app.post("/load_db")
 def load_data():
     try:
@@ -65,7 +71,7 @@ def load_data():
             csv_data = csv.reader(csvfile)
             for row in csv_data:
                 UserModel(
-                    first_name=row[0], 
+                    first_name=row[0],
                     last_name=row[1],
                     email=row[2],
                     phone=row[3]
@@ -74,8 +80,9 @@ def load_data():
     except Exception as e:
         print(e)
         return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"Status": "Failed"})
-        
-        
+
+
 if __name__ == '__main__':
     import uvicorn
+
     uvicorn.run("main:app", host="0.0.0.0", port=8080, log_level="info")

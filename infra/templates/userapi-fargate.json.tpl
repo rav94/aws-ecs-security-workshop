@@ -24,6 +24,12 @@
             "name": "dynamodb-table-name",
             "valueFrom": "${dynamodb-table-name-arn}"
         }
+    ],
+    "environment": [
+        {
+            "name": "default-region",
+            "value": "${region}"
+        }
     ]
   }
 ]
