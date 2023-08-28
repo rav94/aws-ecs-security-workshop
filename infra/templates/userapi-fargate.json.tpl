@@ -3,6 +3,7 @@
     "name": "${container-name}",
     "image": "${repository-url}:latest",
     "essential": true,
+    "privileged": false,
     "portMappings": [
       {
         "hostPort": ${container-port},

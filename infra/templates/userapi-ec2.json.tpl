@@ -5,6 +5,14 @@
     "memory": 512,
     "memoryReservation": 256,
     "essential": true,
+    "privileged": false,
+    "portMappings": [
+      {
+        "hostPort": 0,
+        "containerPort": ${container-port},
+        "protocol": "tcp"
+      }
+    ],
     "linuxParameters": {
         "capabilities": {
             "drop": ["ALL"],
@@ -22,13 +30,6 @@
             ]
         }
     },
-    "portMappings": [
-      {
-        "hostPort": 0,
-        "containerPort": ${container-port},
-        "protocol": "tcp"
-      }
-    ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
