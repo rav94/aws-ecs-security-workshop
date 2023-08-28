@@ -4,7 +4,7 @@ Repo contains resources created for demonstrating security features of AWS ECS. 
 
 ## Directory Specification
 
-*python-api* - Sample python api which is deployed as an ECS task. The API service is a REST API written in Python that talks to a backend database using DynamoDB. Copied from https://github.com/aws-containers/ecsdemo-migration-to-ecs.git
+*python-api* - Sample python api which is deployed as an ECS task. The API service is a REST API written in Python that talks to a backend database using DynamoDB. Copied from https://github.com/aws-containers/ecsdemo-migration-to-ecs.git and did few minor modifications. Kudos to the original authors!
 
 *infra* - Contains Terraform code for the sample infrastructure demonstrating security features of AWS ECS
 
