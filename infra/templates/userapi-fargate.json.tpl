@@ -17,7 +17,7 @@
                 "SYS_PTRACE"
             ]
         }
-    }
+    },
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
