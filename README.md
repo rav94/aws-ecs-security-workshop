@@ -2,6 +2,8 @@
 
 Repo contains resources created for demonstrating security features of AWS ECS. Originally created for the session titled "Securing Containerized Workloads on ECS" @ the August Monthly Meetup of AWS User Group - Colombo [31/08/2023]
 
+Slide deck accompanying the session is also available within the repo
+
 ## Directory Specification
 
 *python-api* - Sample python api which is deployed as an ECS task. The API service is a REST API written in Python that talks to a backend database using DynamoDB. Copied from https://github.com/aws-containers/ecsdemo-migration-to-ecs.git and did few minor modifications. Kudos to the original authors!
