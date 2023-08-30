@@ -7,7 +7,7 @@ locals {
   ecs-fargate-container-name = "user-api-fargate"
 }
 
-data "aws_ami" "ecs" {
+data "aws_ami" "ecs" { # Updates launch templates using latest AMIs as they are released
   most_recent = true # get the latest version
 
   filter {

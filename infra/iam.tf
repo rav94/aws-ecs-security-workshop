@@ -1,4 +1,4 @@
-# ECS EC2 role
+# ECS EC2 role - Only EC2 entity can assume this role
 resource "aws_iam_role" "ecs-ec2-role" {
   name               = "${var.env}-ecs-ec2-role"
   assume_role_policy = <<EOF
@@ -79,7 +79,7 @@ resource "aws_iam_role_policy_attachment" "ecs-ec2-attach-2" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
-# ECS Service Role for providing Load Balancer Capabilities for ECS on EC2 - ECS services
+# ECS Service Role for providing Load Balancer Capabilities for ECS on EC2 - ECS services - Only ECS entity can assume this role
 resource "aws_iam_role" "ecs-role" {
   name = "${var.env}-ecs-role"
   assume_role_policy = <<EOF
@@ -105,7 +105,7 @@ resource "aws_iam_role_policy_attachment" "ecs-service-attach-1" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
-# ECS Task Role
+# ECS Task Role - Only ECS task entity can assume this role
 resource "aws_iam_role" "ecs-task-role" {
   name               = "${var.env}-ecs-task-role"
   assume_role_policy = <<EOF
@@ -160,7 +160,7 @@ EOF
 
 }
 
-# ECS Task Execution Role And Attachments
+# ECS Task Execution Role And Attachments - Only ECS task entity can assume this role
 resource "aws_iam_role" "ecs-task-execution-role" {
   name               = "${var.env}-ecs-task-execution-role"
   assume_role_policy = <<EOF
