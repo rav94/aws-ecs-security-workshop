@@ -4,13 +4,17 @@ Repo contains resources created for demonstrating security features of AWS ECS. 
 
 Slide deck accompanying the session is also available within the repo
 
-## Directory Specification
+## Directory and File Specification
 
 *python-api* - Sample python api which is deployed as an ECS task. The API service is a REST API written in Python that talks to a backend database using DynamoDB. Copied from https://github.com/aws-containers/ecsdemo-migration-to-ecs.git and did few minor modifications. Kudos to the original authors!
 
 *infra* - Contains Terraform code for the sample infrastructure demonstrating security features of AWS ECS
 
-## Notes to read before running
+*aws-architecture.jpg* - High Level AWS Architecture of the deployed solution via Terraform
+
+*session-slide-deck-v*.pdf* - Session slide deck
+
+## Notes (Read before orchestrating the infrastructure)
 
 - **AWS Cloud9 is recommended for carrying out following actions.**
 - **Infrastructure provisioned from running "terraform apply" within infra directory will incur costs. Ensure to run "terraform destroy" after testing these on your AWS accounts.**
@@ -19,7 +23,12 @@ Slide deck accompanying the session is also available within the repo
 *python-api* 
 - Build and push the Docker image from the given Dockerfile to your repository before creating ECS resources. Refer to notes under infra section below. 
 
-*infra* 
+*infra*
+
+#### High Level AWS Architecture of the Deployed Solution
+
+![Reference Architecture](./aws-architecture.jpeg)
+
 - Refer backend.tf and comment it out to use Terraform local state or replace it with your own Terraform cloud configs or use another backend provider.
 - Setup aws-access-key and aws-secret-key on terraform.tfvars file or deploy this within a environment which has respective permissions to access resources specified within this directory. 
 - If you are on AWS Cloud9, the IAM role attached to Cloud9 takes care of the AWS permissions and you won't have to setup AWS access separately.
